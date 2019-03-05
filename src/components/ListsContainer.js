@@ -18,7 +18,7 @@ class ListsContainer extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3001/api/v1/lists.json')
+		axios.get(this.apiEndPoint())
 		.then(response => { 
 			console.log(response)
 			this.setState({
@@ -73,6 +73,13 @@ class ListsContainer extends Component {
 	    .catch(error => console.log(error));
 	}
 
+	apiEndPoint(){
+		if (process.env.NODE_ENV !== 'production') {
+  			return 'http://localhost:3001/api/v1/lists.json'
+		}
+		return 'https://mysterious-tundra-13244.herokuapp.com/api/v1/lists.json'
+	}
+
 	render() {
         return (
             <div className="Lists-container">
@@ -92,7 +99,7 @@ class ListsContainer extends Component {
 	                    />)
 	                }
             	})}
-
+                <NewListForm onNewList={this.addNewList} />
             </div>
 
         )
